@@ -1,0 +1,84 @@
+# Sonic Pad RU WRAP FIX ONLY — переносы русских надписей
+
+Отдельное дополнение для **fluidd-pad**, экранной оболочки Sonic Pad. Архив содержит **только семь CSS-файлов**: правки оформления и переноса текста. Он не содержит языковых словарей, не включает русский язык сам по себе и не является полной русификацией Sonic Pad.
+
+[Релиз](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/tag/sonic-pad-ru-wrap-fix) · [Скачать исходный архив](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/download/sonic-pad-ru-wrap-fix/Sonic_Pad_RU_WRAP_FIX_ONLY.tar.gz)
+
+Пакет относится к `/usr/share/fluidd-pad/css`. [Fluidd Russian V2](FLUIDD_RU.md) относится к другому интерфейсу, `/usr/share/fluidd`, и опубликован отдельно.
+
+## Назначение и совместимость
+
+В CSS присутствуют правила `word-break:normal`, `overflow-wrap:normal`, настройки размеров шрифта и оформления подписей. Файлы привязаны к точным именам чанков:
+
+```text
+chunk-24bf08f5.8fa7dec2.css
+chunk-2d8c2587.f6360dca.css
+chunk-4713c6f0.9010e45a.css
+chunk-74657fe7.dc7302a9.css
+chunk-8561b0ac.032f5d59.css
+chunk-959e2d4c.f580cb30.css
+chunk-cefe1c84.9bd4a0bb.css
+```
+
+В архиве нет VERSION/README, исходных CSS и их контрольных сумм. Поэтому точная версия прошивки и полный перечень отличий от неё по одному архиву не подтверждены. Совпадение имён файлов — необходимая предварительная проверка, но не доказательство полной совместимости. Этот пакет предназначен для соответствующей сборки fluidd-pad с уже работающим русским текстом, которому нужна правка отображения. Для другой прошивки пакет универсальным не считается.
+
+## Перенос на Pad
+
+Откройте PowerShell в папке архива; подставьте реальный IP:
+
+```powershell
+$PadAddress = "192.168.1.36"
+$SshCompat = @("-oHostKeyAlgorithms=+ssh-rsa", "-oPubkeyAcceptedAlgorithms=ssh-rsa", "-oMACs=+hmac-sha1")
+scp -O @SshCompat .\Sonic_Pad_RU_WRAP_FIX_ONLY.tar.gz "root@${PadAddress}:/mnt/UDISK/"
+ssh @SshCompat "root@$PadAddress"
+```
+
+Проверьте отпечаток своего устройства и введите его root-пароль. Следующие команды выполняются в SSH на Pad. Сначала завершите печать/задания и проверьте версию своей экранной оболочки.
+
+## Проверка, резервная копия и применение
+
+SHA-256 исходного архива:
+
+```text
+86eae05fbfab9594321575114a2790a1d11a2a59a8e6b02cb2bb8e75544d9c0f
+```
+
+Распаковывайте во временный рабочий каталог, затем копируйте только CSS. Не нужно распаковывать архив поверх корня системы: он содержит также записи каталогов `/usr` со своими правами.
+
+```sh
+(
+  set -eu
+  cd /mnt/UDISK
+  sha256sum Sonic_Pad_RU_WRAP_FIX_ONLY.tar.gz
+  workdir="$(mktemp -d /mnt/UDISK/sonic-pad-ru-wrap.XXXXXX)"
+  tar -xzf Sonic_Pad_RU_WRAP_FIX_ONLY.tar.gz -C "$workdir"
+  cd "$workdir"
+  for file in usr/share/fluidd-pad/css/*.css; do
+    [ -f "/$file" ] || { echo "Несовместимая сборка: нет /$file"; exit 1; }
+  done
+  backup="/mnt/UDISK/sonic-pad-ru-wrap-backup-$(date +%Y%m%d-%H%M%S).tar.gz"
+  tar -czf "$backup" -C / usr/share/fluidd-pad/css
+  tar -tzf "$backup" >/dev/null
+  for file in usr/share/fluidd-pad/css/*.css; do
+    cp "$file" "/$file"
+  done
+  echo "Резервная копия: $backup"
+)
+```
+
+Сохраните напечатанный путь резервной копии. Если изменения не подхватились, может потребоваться перезапуск экранной оболочки или обычная перезагрузка Pad через его меню после завершения заданий. Проверки реального отображения на устройстве при публикации этого архива не выполнялись.
+
+## Возврат
+
+Укажите **свой фактический путь** резервной копии из предыдущего шага:
+
+```sh
+backup="/mnt/UDISK/sonic-pad-ru-wrap-backup-YYYYMMDD-HHMMSS.tar.gz"
+[ -f "$backup" ] && tar -xzf "$backup" -C /
+```
+
+Возврат рассчитан на ту же сборку fluidd-pad, для которой сделана копия. После восстановления обновите/перезапустите экранную оболочку. В исходном архиве нет оригинальных CSS и собственного restore.sh, поэтому резервная копия перед применением обязательна.
+
+## Проверено перед публикацией
+
+Опубликован ровно переданный архив: 5837 байт, семь CSS-файлов, без ссылок и путей выхода за каталог. Он не содержит SSH-ключей, паролей, конфигураций принтера, сервисов или JavaScript-кода. Контрольные суммы архива и вложенных CSS приложены к релизу. Сам архив не изменялся; инструкция и хеши добавлены отдельными файлами.

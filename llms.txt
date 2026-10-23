@@ -14,3 +14,7 @@
 - Ошибки и восстановление: docs/УСТАНОВКА_И_ОШИБКИ.md
 
 Поисковые темы: Creality Falcon A1, Creality Sonic Pad, Falcon Design Space русский язык, русификация FDS 1.8.0, laser engraver, USB over SSH, Wi-Fi, GRBL, OpenWrt, Windows, камера, офлайн-библиотека материалов.
+
+Отдельный пакет: Fluidd Russian V2, Sonic Pad V1.0.6.54.20, Fluidd V1.0.18_fluidd / base 1.24.0. Включает штатный русский язык в браузерном интерфейсе; встроенный экран Pad не переводит. Описание: docs/FLUIDD_RU.md. Релиз: https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/tag/fluidd-ru-54.20-v2
+
+Sonic Pad RU WRAP FIX ONLY — семь CSS-файлов для оформления и переносов русского текста в fluidd-pad, не полный перевод и не активация языка. Точная версия прошивки из архива не установлена. Инструкция: docs/SONIC_PAD_RU_WRAP_FIX.md. Релиз: https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/tag/sonic-pad-ru-wrap-fix
