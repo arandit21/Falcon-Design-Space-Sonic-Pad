@@ -6,7 +6,7 @@
 
 ## Скачать
 
-Всё находится в [релизе 1.3.0](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/tag/v1.3.0):
+Файлы патча для Falcon Design Space находятся в [релизе 1.3.0](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/tag/v1.3.0):
 
 | Файл | Назначение |
 | --- | --- |
@@ -22,16 +22,6 @@
 ## Комплексная русификация самого Sonic Pad
 
 **[Экран + переносы текста + браузерный Fluidd одним пакетом](docs/SONIC_PAD_RUSSIAN_SUITE.md)** для Sonic Pad V1.0.6.54.20. Рабочий русский словарь экрана, проверка совместимости, резервная копия и возврат. [Скачать общий комплект](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/tag/sonic-pad-russian-54.20-v1.1.0). Новый общий установщик — предварительный выпуск; сценарии установки и отката проверены локально.
-
-Ниже сохранены отдельные пакеты для тех, кому нужна только одна часть.
-
-## Отдельно: русский Fluidd на Sonic Pad
-
-[Fluidd Russian V2 для Sonic Pad V1.0.6.54.20](docs/FLUIDD_RU.md) — отдельный пакет активации встроенного русского перевода **веб-интерфейса Fluidd**. Содержит проверку совместимости, резервную копию и возврат к штатным файлам. [Скачать релиз Fluidd](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/tag/fluidd-ru-54.20-v2). Встроенный сенсорный экран Pad этим пакетом не переводится.
-
-## Дополнительно: переносы русского текста на экране Sonic Pad
-
-[Sonic Pad RU WRAP FIX ONLY](docs/SONIC_PAD_RU_WRAP_FIX.md) — отдельный архив из семи CSS-файлов для `fluidd-pad`. Исправление оформления русских подписей; **не полный перевод и не активация языка**. [Скачать релиз](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/tag/sonic-pad-ru-wrap-fix). Нужны соответствующая сборка экранной оболочки и резервная копия CSS.
 
 ## Что умеет патч
 
