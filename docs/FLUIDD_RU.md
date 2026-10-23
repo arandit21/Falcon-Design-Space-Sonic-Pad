@@ -1,5 +1,7 @@
 # Fluidd на русском — Sonic Pad 54.20, V2
 
+Для полной русификации экрана и веб-интерфейса используйте [общий комплект Sonic Pad 54.20](SONIC_PAD_RUSSIAN_SUITE.md). Этот отдельный пакет сохранён для установки только одной части.
+
 Готовый пакет **Fluidd_Russian_SonicPad_54.20_v2.tar.gz** для веб-интерфейса Fluidd на **Creality Sonic Pad V1.0.6.54.20**. Целевая сборка: **V1.0.18_fluidd / upstream base 1.24.0**.
 
 [Скачать отдельный релиз](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/tag/fluidd-ru-54.20-v2) · [Архив](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/download/fluidd-ru-54.20-v2/Fluidd_Russian_SonicPad_54.20_v2.tar.gz)

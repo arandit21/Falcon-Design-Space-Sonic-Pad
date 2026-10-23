@@ -1,5 +1,7 @@
 # Sonic Pad RU WRAP FIX ONLY — переносы русских надписей
 
+Для полной русификации экрана и веб-интерфейса используйте [общий комплект Sonic Pad 54.20](SONIC_PAD_RUSSIAN_SUITE.md). Этот отдельный пакет сохранён для установки только одной части.
+
 Отдельное дополнение для **fluidd-pad**, экранной оболочки Sonic Pad. Архив содержит **только семь CSS-файлов**: правки оформления и переноса текста. Он не содержит языковых словарей, не включает русский язык сам по себе и не является полной русификацией Sonic Pad.
 
 [Релиз](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/tag/sonic-pad-ru-wrap-fix) · [Скачать исходный архив](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/download/sonic-pad-ru-wrap-fix/Sonic_Pad_RU_WRAP_FIX_ONLY.tar.gz)
