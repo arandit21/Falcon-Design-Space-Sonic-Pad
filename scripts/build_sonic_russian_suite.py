@@ -5,7 +5,7 @@ ROOT=Path(__file__).resolve().parents[1]
 SOURCE=ROOT/'sonic-pad-russian'
 INPUTS=Path(os.environ.get('SONIC_RU_BUILD_INPUTS',str(ROOT/'inputs')))
 OUT=ROOT/'dist/sonic_pad_russian'
-NAME='Sonic_Pad_Russian_54.20_1.0.0'
+NAME='Sonic_Pad_Russian_54.20_1.1.0'
 DEST=OUT/NAME
 DEST.mkdir(parents=True,exist_ok=True)
 
@@ -27,19 +27,22 @@ payload[locale]=(text[:start]+json.dumps(dictionary,ensure_ascii=False,separator
 for path in expected:
  if '/css/' in path:payload[path]=read('ui',path)
 for path,data in payload.items():assert sha(data)==expected[path],path
-for path in ['usr/share/fluidd/index.html','usr/share/fluidd/sw.js','usr/share/fluidd/assets/index-cbfa4fba.js']:
- payload[path]=read('web/files',path)
+for path in ['usr/share/fluidd/index.html','usr/share/fluidd/sw.js','usr/share/fluidd/assets/index-cbfa4fba.js','usr/share/fluidd/assets/ru-8fa4abd5.js']:
+ payload[path]=read('web/live',path)
+live_web=json.loads((SOURCE/'expected-fluidd-live-hashes.json').read_text())
+for path,digest in live_web.items():assert sha(payload[path])==digest,path
 files=[]
 legacy={'usr/share/fluidd/index.html':['3d453ca3cf27c7a7e333bf13a515f423cd5aa57c215857e7e30ea2cec81aceeb'],'usr/share/fluidd/sw.js':['f576fbb132d22f35036164c0ce913280b6465ecf54c2ec8f6e0d64cb6d271a7f']}
 for path,data in sorted(payload.items()):
  item={'path':path,'sha256':sha(data)}
  item['accepted_before']=None if '/css/' in path else [sha(read('ui' if 'fluidd-pad/' in path else 'web/stock',path))]+legacy.get(path,[])
+ if '/fluidd/' in path and (INPUTS/'web/files'/path).exists():item['accepted_before'].append(sha(read('web/files',path)))
  files.append(item);target=DEST/'payload'/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(data)
 guards=[]
 for path in ['usr/share/fluidd-pad/index.html','usr/share/web/pad/main.qml']:
  guards.append({'path':path,'accepted_sha256':[sha(read('ui',path))]})
-path='usr/share/fluidd/assets/ru-8fa4abd5.js';guards.append({'path':path,'accepted_sha256':[sha(read('web/stock',path))]})
-manifest={'package':'sonic-pad-russian-54.20-1.0.0','target':'Sonic Pad V1.0.6.54.20','screen_base':'fluidd-pad V1.3.3 (2023/10/10)','web_base':'V1.0.18_fluidd / upstream 1.24.0','files':files,'guards':guards,'settings_included':False,'translation_strings':1474,'privacy_agreement_language':'English fallback for ru'}
+# The Russian Fluidd dictionary is now installed, not merely checked.
+manifest={'package':'sonic-pad-russian-54.20-1.1.0','target':'Sonic Pad V1.0.6.54.20','screen_base':'fluidd-pad V1.3.3 (2023/10/10)','web_base':'V1.0.18_fluidd / upstream 1.24.0','files':files,'guards':guards,'settings_included':False,'translation_strings':1474,'privacy_agreement_language':'English fallback for ru'}
 (DEST/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf8')
 for name in ['install.py','install.sh']:
  (DEST/name).write_bytes((SOURCE/name).read_text(encoding='utf-8-sig').replace('\r\n','\n').encode('utf8'))

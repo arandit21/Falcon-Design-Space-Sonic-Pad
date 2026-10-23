@@ -5,7 +5,7 @@ from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('sonic_ru_installer',ROOT/'sonic-pad-russian/install.py');module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
 INPUTS=Path(os.environ.get('SONIC_RU_BUILD_INPUTS',str(ROOT/'inputs')))
-PACKAGE=ROOT/'dist/sonic_pad_russian/Sonic_Pad_Russian_54.20_1.0.0'
+PACKAGE=ROOT/'dist/sonic_pad_russian/Sonic_Pad_Russian_54.20_1.1.0'
 manifest=json.loads((PACKAGE/'manifest.json').read_text(encoding='utf8'))
 testroot=ROOT/'tests/test_runs';testroot.mkdir(exist_ok=True)
 def fixture(base):
@@ -50,3 +50,14 @@ with tempfile.TemporaryDirectory(dir=testroot,prefix='sonic_suite_') as folder:
  except RuntimeError:pass
  assert all((target/path).read_bytes()==data for path,data in original.items())
 print('PASS: complete install/verify/restore, repeat-install preservation, partial failure rollback, unknown build rejection, corrupt payload rejection, user configurations untouched')
+
+# Upgrade from the previous public 1.0.0/V2 browser payload and return to it.
+with tempfile.TemporaryDirectory(dir=testroot,prefix='sonic_upgrade_') as folder:
+ base=Path(folder);target=fixture(base);state=base/'backup'
+ for item in manifest['files']:
+  path=item['path']
+  if '/fluidd/' in path and (INPUTS/'web/files'/path).exists():shutil.copy2(INPUTS/'web/files'/path,target/path)
+ original={item['path']:(target/item['path']).read_bytes() for item in manifest['files']}
+ module.install(PACKAGE,target,state);module.verify(PACKAGE,target);module.restore(PACKAGE,target,state)
+ assert all((target/path).read_bytes()==data for path,data in original.items())
+print('PASS: upgrade from public V2/1.0.0 browser resources and restore')

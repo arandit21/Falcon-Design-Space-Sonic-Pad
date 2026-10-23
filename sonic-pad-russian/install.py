@@ -11,7 +11,7 @@ import sys
 import time
 
 HERE=Path(__file__).resolve().parent
-PACKAGE='sonic-pad-russian-54.20-1.0.0'
+PACKAGE='sonic-pad-russian-54.20-1.1.0'
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -27,8 +27,8 @@ def destination(root,relative):
 def load_manifest(package):
     manifest=json.loads((package/'manifest.json').read_text(encoding='utf8'))
     if manifest.get('package')!=PACKAGE:raise RuntimeError('Неподдерживаемый пакет.')
-    if len(manifest['files'])!=13 or len({x['path'] for x in manifest['files']})!=13:
-        raise RuntimeError('В пакете должен быть точный набор из 13 файлов.')
+    if len(manifest['files'])!=14 or len({x['path'] for x in manifest['files']})!=14:
+        raise RuntimeError('В пакете должен быть точный набор из 14 файлов.')
     for item in manifest['files']:
         source=destination(package/'payload',item['path'])
         if not source.is_file() or source.is_symlink() or digest(source)!=item['sha256']:
@@ -47,7 +47,7 @@ def check(package,root):
         accepted=item.get('accepted_before')
         if accepted is not None and digest(path) not in set(accepted+[item['sha256']]):
             raise RuntimeError('Неизвестное содержимое файла: '+item['path'])
-    print('CHECK PASSED: совместимая сборка и целостность 13 файлов подтверждены.')
+    print('CHECK PASSED: совместимая сборка и целостность 14 файлов подтверждены.')
     return manifest
 
 def verify(package,root):
@@ -125,7 +125,7 @@ def main():
     args=parser.parse_args()
     if not hasattr(os,'geteuid') or os.geteuid()!=0:raise RuntimeError('Запускайте от root на Sonic Pad, не на Windows.')
     if sys.version_info<(3,7):raise RuntimeError('Требуется Python 3.7 или новее.')
-    root=Path('/');state=Path('/mnt/UDISK/sonic-pad-russian-54.20-backup')
+    root=Path('/');state=Path('/mnt/UDISK/sonic-pad-russian-54.20-1.1.0-backup')
     if args.action=='check':check(HERE,root)
     elif args.action=='verify':verify(HERE,root)
     else:

@@ -56,7 +56,7 @@
   "sonic_pad_russian_suite": {
     "firmware": "V1.0.6.54.20",
     "description_ru": "Комплексная русификация сенсорного экрана, переносов текста и веб-интерфейса Fluidd",
-    "release": "sonic-pad-russian-54.20-v1.0.0",
+    "release": "sonic-pad-russian-54.20-v1.1.0",
     "status_ru": "Предварительный выпуск; установщик проверен локально",
     "documentation": "docs/SONIC_PAD_RUSSIAN_SUITE.md"
   }
