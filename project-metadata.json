@@ -1,0 +1,42 @@
+{
+  "name": "Falcon Design Space + Sonic Pad",
+  "language": "ru",
+  "repository": "https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad",
+  "version": "1.3.0",
+  "status": "предварительный выпуск",
+  "platform": "Windows x64 + Creality Sonic Pad",
+  "hardware": [
+    "Creality Falcon A1",
+    "Creality Falcon Camera"
+  ],
+  "application": "Falcon Design Space 1.8.0",
+  "features": [
+    "русский интерфейс",
+    "офлайн-библиотека материалов",
+    "USB-протокол через SSH",
+    "перемещения по сети",
+    "фото камеры 2592×1944",
+    "настройка IP",
+    "установка службы Sonic Pad"
+  ],
+  "limitations": [
+    "нет непрерывного видео",
+    "нет универсальной калибровки",
+    "полный цикл гравировки не подтверждён",
+    "первая аппаратная установка публичного пакета не подтверждена"
+  ],
+  "keywords": [
+    "Creality",
+    "Falcon A1",
+    "Sonic Pad",
+    "Falcon Design Space",
+    "русский язык",
+    "русификация",
+    "камера",
+    "Wi-Fi",
+    "GRBL",
+    "USB over SSH",
+    "OpenWrt",
+    "Windows"
+  ]
+}

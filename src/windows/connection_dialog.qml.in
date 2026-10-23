@@ -1,0 +1,398 @@
+import QtQuick 2.15
+import QtQuick.Window 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Controls 2.15
+import Qt.labs.settings 1.1
+
+ClDlg {
+    id: root
+    width: 640
+    height: 480
+
+    textColor: "#2F2F2F"
+    textAlignment: "center"
+    title: qsTr("WIFI discovery device")
+
+    Settings {
+        id: sonicSettings
+        category: "Connection"
+        fileName: @@SETTINGS_FILE@@
+        property string host: "192.168.1.36"
+    }
+    function isSonicPage() { return tabBar.currentIndex === 2 }
+    function saveSonicAddress() {
+        const host = sonicHost.text.trim()
+        if (!isValidIP(host)) { clToast.show("Введите корректный IP-адрес Sonic Pad"); return }
+        sonicSettings.host = host
+        sonicSettings.sync()
+        clToast.show("Адрес Sonic Pad сохранён. Применится после перезапуска программы.")
+    }
+    function isValidIP(ip) 
+    {
+        const regex = /^(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)){3}$/;
+        return regex.test(ip);
+    }
+
+    function tryConnectIP(ip)
+    {
+        if (isValidIP(ip)) {
+            console.log("Valid IP:", ip)
+            deviceCtl.tryConnectByIP(ip)
+            Qt.callLater(() => {
+                close();
+            });
+        } else  {
+            console.log("Invalid IP",ip)
+            clToast.show(qsTr("Incorrect IP address, please re-enter"))
+        }
+    }
+
+    function tryConnnctWifiList(index)
+    {
+        deviceCtl.tryConnectByWifi(index)
+        Qt.callLater(() => {
+            close();
+        });
+    }
+
+    function startWifiScan()
+    {
+        deviceCtl.startWifiScan();
+    }
+
+    function stopWifiScan()
+    {
+        deviceCtl.stopWifiScan();
+    }
+
+    function restartWifiScan()
+    {
+        deviceCtl.restartWifiScan();
+    }
+
+    function isUsbPage()
+    {
+        return false;
+    }
+
+    function isWifiPage()
+    {
+        if(tabBar.currentIndex === 0) {
+            return true;
+        }
+        return false;
+    }
+
+    function isIPPage()
+    {
+        if(tabBar.currentIndex === 1) {
+            return true;
+        }
+        return false;
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "#F7F9FB"
+
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 10
+
+            Item {
+                Layout.preferredHeight: 30
+            }
+
+            TabBar {
+                id: tabBar
+                currentIndex: 2
+                Layout.fillWidth: true
+                Layout.leftMargin: 120
+                Layout.rightMargin: 120
+                Layout.preferredHeight: 30
+
+                // StyledTabButton { 
+                //     text: "USB" 
+                //     visible: isLoadUsb
+                // }
+
+                StyledTabButton { text: "WIFI" }
+                StyledTabButton { text: "IP" }
+                StyledTabButton { text: "Sonic Pad" }
+
+                onCurrentIndexChanged: {
+                    console.log("Current Tab Index:", currentIndex)
+                    if (root.visible && isWifiPage()) {
+                        startWifiScan();
+                    } else if(root.visible && (isIPPage() || isUsbPage() || isSonicPage())) {
+                        stopWifiScan();
+                    }
+                }
+            }
+
+            Item {
+                Layout.preferredHeight: 10
+            }
+
+            Item {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.bottomMargin: 0
+                
+                StackLayout {
+                    id: stack
+                    anchors.fill: parent
+                    anchors.leftMargin: 60
+                    anchors.rightMargin: 60
+                    currentIndex: tabBar.currentIndex
+
+                    // Item {
+                    //     visible: isLoadUsb
+                    //     Text {
+                    //         anchors.centerIn: parent
+                    //         text: "USB Devices"
+                    //     }
+                    // }
+
+                    Item {
+                        property bool isLoading: deviceCtl.wifiInfoModel.count === 0// 绑定到实际加载状态
+                        
+                        ListView {
+                            id: wifiListView
+                            anchors.fill: parent
+                            visible: !parent.isLoading
+                            model: deviceCtl.wifiInfoModel
+                            clip: true
+                            flickDeceleration: 1500
+                            maximumFlickVelocity: 800
+                            cacheBuffer: 40
+                            reuseItems: true
+
+                            delegate: Item {
+                                width: parent.width
+                                height: 60
+
+                                property bool hovered: false
+
+                                Column {
+                                    anchors.fill: parent
+
+                                    Rectangle {
+                                        id: backgroundRect
+                                        height: 59
+                                        width: parent.width
+                                        color: hovered ? "#f5faff" : "white"  // 悬浮浅蓝，不悬浮白色
+                                        Behavior on color {
+                                            ColorAnimation { duration: 150 }
+                                        }
+
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            hoverEnabled: true
+                                            onEntered: hovered = true
+                                            onExited: hovered = false
+
+                                            onClicked: {
+                                                console.log("Clicked item at index:", index)
+                                                tryConnnctWifiList(index)
+                                            }
+
+                                            onDoubleClicked: {
+                                                console.log("Double-clicked item at index:", index)
+                                                tryConnnctWifiList(index)
+                                            }
+                                        }
+
+                                        RowLayout {
+                                            anchors.fill: parent
+                                            anchors.margins: 8
+                                            spacing: 12
+
+                                            Image {
+                                                source: model.Image
+                                                width: 32
+                                                height: 32
+                                                fillMode: Image.PreserveAspectFit
+                                            }
+
+                                            Text {
+                                                text: model.Name
+                                                font.bold: false
+                                                font.pointSize: 10
+                                                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                                                elide: Text.ElideRight
+                                            }
+
+                                            Item {
+                                                Layout.fillWidth: true
+                                            }
+
+                                            Text {
+                                                Layout.preferredWidth: 150
+                                                text: model.Info
+                                                color: "gray"
+                                                font.pointSize: 10
+                                                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                                elide: Text.ElideRight
+                                                horizontalAlignment: Text.AlignLeft
+                                            }
+                                        }
+                                    }
+
+                                    Rectangle {
+                                        height: 1
+                                        width: parent.width
+                                        color: "#eeeeee"
+                                    }
+                                }
+                            }
+                        }
+
+                        Item {
+                            id: loadingContainer
+                            anchors.fill: parent
+                            visible: parent.isLoading
+                            
+                            ProgressCircle {
+                                anchors.centerIn: parent
+                                size: 60
+                                color: "#333333"
+                            }
+                        }
+                    }
+
+                    Item {
+                        ColumnLayout {
+                            anchors.fill: parent
+                            spacing: 15
+                            
+                            Text {
+                                Layout.alignment: Qt.AlignLeft
+                                Layout.topMargin: 10
+                                text: qsTr("Please enter the IP address of the device")
+                                font.pointSize: 11
+                                color: "#333333"
+                            }
+
+                            ClComboBox {
+                                id: ipInput
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 40
+                                editable: true
+                                //placeholderText: "Enter IP address"
+                                model:deviceManager.ipList
+                                font.pointSize: 12
+                                padding: 10
+                                background: Rectangle {
+                                    radius: 6
+                                    color: ipInput.focus
+                                        ? "#ffffff"
+                                        : (ipInput.hovered ? "#f0f0f0" : "#f8f8f8")
+                                    border.color: ipInput.focus
+                                                ? "#444444"
+                                                : (ipInput.hovered ? "#aaaaaa" : "#cccccc")
+                                    border.width: 1
+                                
+                                    Behavior on color {
+                                        ColorAnimation { duration: 120 }
+                                    }
+                                    Behavior on border.color {
+                                        ColorAnimation { duration: 120 }
+                                    }
+                                }
+                               
+                                //color: "#000000"
+                                //placeholderTextColor: "#999999"
+                                                                
+                                Keys.onReturnPressed: {
+                                    if(tabBar.currentIndex == 1) {
+                                        tryConnectIP(ipInput.editText)
+                                    }
+                                }
+                                Keys.onEnterPressed: Keys.onReturnPressed(event)
+                            }
+
+                            Item {
+                                Layout.fillHeight: true
+                            }
+                        }
+                    }
+                    Item {
+                        ColumnLayout {
+                            anchors.fill: parent
+                            spacing: 16
+                            Text { text: "Подключение через Sonic Pad"; font.pointSize: 14; color: "#2F2F2F" }
+                            Text { text: "IP-адрес Sonic Pad"; font.pointSize: 11 }
+                            TextField {
+                                id: sonicHost
+                                Layout.fillWidth: true
+                                text: sonicSettings.host
+                                placeholderText: "192.168.1.36"
+                                selectByMouse: true
+                                Keys.onReturnPressed: root.saveSonicAddress()
+                            }
+                            Text { text: "Адрес текущего запуска: " + @@ACTIVE_HOST@@; color: "#666666"; font.pointSize: 10 }
+                            Text { text: "После изменения адреса сохраните проект и перезапустите программу. Камера использует этот же Sonic Pad."; wrapMode: Text.WordWrap; Layout.fillWidth: true; color: "#666666"; font.pointSize: 10 }
+                            Item { Layout.fillHeight: true }
+                        }
+                    }
+                }
+            }
+
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 80
+                color: "#ffffff"
+
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.margins: 10
+                    spacing: 20
+
+                    Text {
+                        Layout.preferredWidth: 420
+                        Layout.alignment: Qt.AlignLeft
+                        // Layout.topMargin: 10
+                        text: isSonicPage() ? "Sonic Pad передаёт управление и снимки камеры по сети." : qsTr("Please turn on the device and ensure it is connected to Wi-Fi.") + ("<br>") + qsTr("Supported device: A1 Pro")
+                        font.pointSize: 10
+                        color: "#b0b0b0"
+                        wrapMode: Text.Wrap
+                        textFormat: Text.RichText
+                    }
+
+                    Item {
+                        Layout.fillWidth: true
+                    }
+
+                    ClButton {
+                        text: isSonicPage() ? "Сохранить" : ((isUsbPage() || isWifiPage()) ? qsTr("Refresh") : qsTr("Connect"))
+                        Layout.preferredWidth: 100
+                        height: 36
+                        Layout.alignment: Qt.AlignVCenter
+
+                        onClicked: {
+                            if(isSonicPage()) {
+                                saveSonicAddress()
+                            } else if(isIPPage()) {
+                                tryConnectIP(ipInput.editText)
+                            } else if(isWifiPage()) {
+                                restartWifiScan()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    onVisibleChanged: {
+        Qt.callLater(() => {
+            if (!visible && isWifiPage()) {
+                stopWifiScan();
+            } else if (visible && isWifiPage()) {
+                startWifiScan();
+            }
+        });
+    }
+
+}

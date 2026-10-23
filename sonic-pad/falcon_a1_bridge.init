@@ -1,0 +1,9 @@
+#!/bin/sh /etc/rc.common
+# FALCON_SONIC_PAD_MANAGED_R4=1
+START=99
+STOP=10
+BRIDGE=/etc/falcon_a1/bridge_r3.py
+start() { python3 /etc/falcon_a1/service_control.py start; }
+stop() { python3 /etc/falcon_a1/service_control.py stop; }
+restart() { python3 /etc/falcon_a1/service_control.py restart; }
+status() { python3 /etc/falcon_a1/service_control.py status; }

@@ -1,0 +1,14 @@
+{
+  "tree_rva": 34889936,
+  "names_rva": 34875968,
+  "data_rva": 10162896,
+  "tree_size": 9944,
+  "data_size": 28275789,
+  "resources": [
+    {
+      "path": "/ClDlgEquipmentConnect.qml",
+      "node": 24,
+      "flags": 1
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+dist/
+build/
+__pycache__/
+*.pyc
+.ssh/
+results/
+tests/test_runs/
+*.log
+.env

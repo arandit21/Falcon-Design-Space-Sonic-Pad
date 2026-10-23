@@ -1,0 +1,16 @@
+# Falcon Design Space + Sonic Pad
+
+> Неофициальный русский проект для подключения Creality Falcon A1 к Falcon Design Space 1.8.0 через Creality Sonic Pad по сети.
+
+Репозиторий: https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad
+Релиз: https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/tag/v1.3.0
+Документация: русский язык.
+
+Назначение: Windows x64, русификация FDS, офлайн-материалы, штатный USB-протокол через SSH, перемещения, камера с фото 2592×1944 и настройка IP. Сначала нужна оригинальная FDS 1.8.0, затем полный патч. Оригинальный установщик Creality и служба Sonic Pad доступны в релизе. Персональные ключи и калибровка не распространяются. Камера получает отдельные фото, не непрерывное видео. Полный цикл гравировки и чистая аппаратная установка публичного пакета пока не подтверждены; выпуск предварительный.
+
+- Обзор и установка: README.md
+- Служба Sonic Pad: docs/SONIC_PAD.md
+- Статус проверок: docs/ПРОВЕРКИ.md
+- Ошибки и восстановление: docs/УСТАНОВКА_И_ОШИБКИ.md
+
+Поисковые темы: Creality Falcon A1, Creality Sonic Pad, Falcon Design Space русский язык, русификация FDS 1.8.0, laser engraver, USB over SSH, Wi-Fi, GRBL, OpenWrt, Windows, камера, офлайн-библиотека материалов.
