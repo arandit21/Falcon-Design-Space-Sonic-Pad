@@ -1,10 +1,10 @@
 # Sonic Pad RU WRAP FIX ONLY — переносы русских надписей
 
-Для полной русификации экрана и веб-интерфейса используйте [общий комплект Sonic Pad 54.20](SONIC_PAD_RUSSIAN_SUITE.md). Этот отдельный пакет сохранён для установки только одной части.
+Для полной русификации экрана и веб-интерфейса используйте [общий комплект Sonic Pad 54.20](SONIC_PAD_RUSSIAN_SUITE.md). Ниже сохранена историческая инструкция к отдельному пакету; его устаревший релиз удалён. Для новой установки скачивайте актуальный комплект 1.1.0.
 
 Отдельное дополнение для **fluidd-pad**, экранной оболочки Sonic Pad. Архив содержит **только семь CSS-файлов**: правки оформления и переноса текста. Он не содержит языковых словарей, не включает русский язык сам по себе и не является полной русификацией Sonic Pad.
 
-[Релиз](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/tag/sonic-pad-ru-wrap-fix) · [Скачать исходный архив](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/download/sonic-pad-ru-wrap-fix/Sonic_Pad_RU_WRAP_FIX_ONLY.tar.gz)
+[Актуальный релиз 1.1.0](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/tag/sonic-pad-russian-54.20-v1.1.0) · [Скачать общий комплект](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/download/sonic-pad-russian-54.20-v1.1.0/Sonic_Pad_Russian_54.20_1.1.0.tar.gz)
 
 Пакет относится к `/usr/share/fluidd-pad/css`. [Fluidd Russian V2](FLUIDD_RU.md) относится к другому интерфейсу, `/usr/share/fluidd`, и опубликован отдельно.
 
