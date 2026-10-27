@@ -11,7 +11,7 @@
 | Файл | Назначение |
 | --- | --- |
 | [Falcon_Design_Space_1.8.0_Original.exe](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/download/v1.3.0/Falcon_Design_Space_1.8.0_Original.exe) | Исходный установщик FDS 1.8.0, без изменений содержимого |
-| [FalconSonicPad_Setup_1.3.0.exe](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/download/v1.3.0/FalconSonicPad_Setup_1.3.0.exe) | Установщик полного патча; старый патч отдельно не нужен |
+| [FalconSonicPad_Setup_1.3.0.exe](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/download/v1.3.0/FalconSonicPad_Setup_1.3.0.exe) | Установщик полного патча |
 | [Falcon_SonicPad_Service_1.3.0.zip](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/download/v1.3.0/Falcon_SonicPad_Service_1.3.0.zip) | Служба R4, нативный ретранслятор, адаптер фото и установка на Sonic Pad вручную |
 | [Falcon_Design_Space_FULL_PATCH_1.3.0.zip](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/download/v1.3.0/Falcon_Design_Space_FULL_PATCH_1.3.0.zip) | Патч, пакет службы и русская инструкция одним архивом; исходный установщик FDS скачивается отдельно |
 | [Базовый NO_AUTH_PATCH для сборщиков](https://github.com/arandit21/Falcon-Design-Space-Sonic-Pad/releases/download/v1.3.0/Falcon_Design_Space_NO_AUTH_PATCH_20261011.zip) | Исходный базовый архив; при обычной установке нового патча не нужен |
